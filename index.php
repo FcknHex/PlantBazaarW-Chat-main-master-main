@@ -71,157 +71,154 @@ if ($isLoggedIn) {
     </div>
 
     <script>
-    // AJAX Fetching of top Seller
-     $(document).ready(function() {
+$(document).ready(function() {
+    // Fetch Newly Listed Plants via AJAX
+    $.ajax({
+        url: 'Ajax/fetch_newly_listed.php',
+        type: 'GET',
+        success: function(response) {
+            try {
+                let plants = response;
+                let currentUserEmail = <?php echo json_encode($isLoggedIn ? $email : ''); ?>; // Get logged-in user's email
 
-            // AJAX Fetching of newly listed plants
-            $.ajax({ 
-                url: 'Ajax/fetch_newly_listed.php',
-                type: 'GET',
-                success: function(response) {
-                    try {
-                        let plants = response;
-
-                        if (plants.error) {
-                            alert(plants.error); // Show error message if any
-                            return;
-                        }
-
-                        // Group plants by location
-                        let plantsByLocation = {};
-                        plants.forEach(function(product) {
-                            if (!plantsByLocation[product.city]) {
-                                plantsByLocation[product.city] = [];
-                            }
-                            plantsByLocation[product.city].push(product);
-                        });
-
-                        let contentHtml = '';
-                        let locationsHtml = `
-                            <div class="plant-location">
-                                <button class="location-btn" data-location="all">Show All</button>
-                            </div>`;
-
-                        for (let location in plantsByLocation) {
-                            // Add plant items to contentHtml
-                            plantsByLocation[location].forEach(function(product) {
-                                let imgPath = `Products/${product.seller_email}/${product.img1}`;
-
-                                let createdAt = new Date(product.createdAt); // Convert to Date object
-                                let currentTime = new Date();
-                                let timeDiffInHours = Math.floor((currentTime - createdAt) / (1000 * 60 * 60));
-                                let timeDiffInDays = Math.floor(timeDiffInHours / 24);
-                                let timeDiffInWeeks = Math.floor(timeDiffInDays / 7);
-
-                                // Display time ago based on the time difference
-                                let timeAgoText = '';
-                                if (timeDiffInHours < 1) {
-                                    timeAgoText = 'Just now';
-                                } else if (timeDiffInHours < 24) {
-                                    timeAgoText = `${timeDiffInHours} hours ago`;
-                                } else if (timeDiffInDays < 7) {
-                                    timeAgoText = `${timeDiffInDays} days ago`;
-                                } else {
-                                    timeAgoText = `${timeDiffInWeeks} weeks ago`;
-                                }
-
-                                // Add "Chat Seller" button only if the user is logged in (using PHP to check)
-                                let chatSellerButton = `<?php if ($isLoggedIn) { ?>
-                                    <button class="chat-seller" data-email="${product.seller_email}">Chat Seller</button>
-                                <?php } ?>`;
-
-                                contentHtml += `
-                                    <div class="plant-item" data-location="${product.city}">
-                                        <div class="plant-image">
-                                            <img src="${imgPath}" alt="${product.plantname}">
-                                        </div>
-                                        <p>${product.plantname}</p>
-                                        <p>Price: ₱${product.price}</p>
-                                        <p>Category: ${product.plantcategories}</p>
-                                        <p style="font-size: 12px;">Posted: ${timeAgoText}</p>
-                                        <div class="plant-item-buttons">
-                                            <button class="view-details" data-id="${product.plantid}" data-email="${product.seller_email}">View Details</button>
-                                            ${chatSellerButton}
-                                        </div>
-                                    </div>`;
-                            });
-
-                            // Add location buttons to locationsHtml
-                            locationsHtml += `
-                                <div class="plant-location">
-                                    <button class="location-btn" data-location="${location}">
-                                        ${location}
-                                    </button>
-                                </div>`;
-                        }
-
-                        $('#newly-contents').html(contentHtml);
-                        $('#locations').html(locationsHtml);
-
-                        // Add event listeners to location buttons to filter plants
-                        $('.location-btn').on('click', function() {
-                            let location = $(this).data('location');
-                            console.log(`Button clicked: Location=${location}`); // Log the location
-
-                            if (location === 'all') {
-                                $('.plant-item').show();
-                            } else {
-                                $('.plant-item').each(function() {
-                                    if ($(this).data('location') === location) {
-                                        $(this).show();
-                                    } else {
-                                        $(this).hide();
-                                    }
-                                });
-                            }
-                        });
-
-                      // Add event listeners to view-details and chat-seller buttons
-                      $(document).on('click', '.view-details', function() {
-                            let plantId = $(this).data('id');
-                            let sellerEmail = $(this).data('email');
-
-                            console.log(`View Details button clicked: Plant ID=${plantId}`); // Log the plant ID.
-                            console.log(`Chat Seller button clicked: Seller Email=${sellerEmail}`); // Log the seller email
-
-                            // Create a hidden form and submit it
-                            let form = $('<form>', {
-                                action: 'viewdetails?plant=' + plantId,
-                                method: 'GET'
-                            }).append($('<input>', {
-                                type: 'hidden',
-                                name: 'plantId',
-                                value: plantId
-                            })).append($('<input>', {
-                                type: 'hidden',
-                                name: 'sellerEmail',
-                                value: sellerEmail
-                            }));
-
-                            $('body').append(form);
-                            form.submit();
-
-                            });
-
-                        $(document).on('click', '.chat-seller', function() {
-                            let sellerEmail = $(this).data('email');
-                            console.log(`Chat Seller button clicked: Seller Email=${sellerEmail}`); // Log the seller email
-                            window.location.href = `chat_upgrade/chat.php?seller_email=${encodeURIComponent(sellerEmail)}`;
-                        });
-                    } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                        console.log('Response received:', response);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', status, error);
+                if (plants.error) {
+                    alert(plants.error); // Show error message if any
+                    return;
                 }
-            });
 
+                // Group plants by location
+                let plantsByLocation = {};
+                plants.forEach(function(product) {
+                    if (!plantsByLocation[product.city]) {
+                        plantsByLocation[product.city] = [];
+                    }
+                    plantsByLocation[product.city].push(product);
+                });
+
+                let contentHtml = '';
+                let locationsHtml = `
+                    <div class="plant-location">
+                        <button class="location-btn" data-location="all">Show All</button>
+                    </div>`;
+
+                for (let location in plantsByLocation) {
+                    // Add plant items to contentHtml
+                    plantsByLocation[location].forEach(function(product) {
+                        let imgPath = `Products/${product.seller_email}/${product.img1}`;
+
+                        let createdAt = new Date(product.createdAt); // Convert to Date object
+                        let currentTime = new Date();
+                        let timeDiffInHours = Math.floor((currentTime - createdAt) / (1000 * 60 * 60));
+                        let timeDiffInDays = Math.floor(timeDiffInHours / 24);
+                        let timeDiffInWeeks = Math.floor(timeDiffInDays / 7);
+
+                        // Display time ago based on the time difference
+                        let timeAgoText = '';
+                        if (timeDiffInHours < 1) {
+                            timeAgoText = 'Just now';
+                        } else if (timeDiffInHours < 24) {
+                            timeAgoText = `${timeDiffInHours} hours ago`;
+                        } else if (timeDiffInDays < 7) {
+                            timeAgoText = `${timeDiffInDays} days ago`;
+                        } else {
+                            timeAgoText = `${timeDiffInWeeks} weeks ago`;
+                        }
+
+                        // Show "Chat Seller" button if the logged-in user is not the seller
+                        let chatSellerButton = '';
+                        if (currentUserEmail && currentUserEmail !== product.seller_email) {
+                            chatSellerButton = `<button class="chat-seller" data-email="${product.seller_email}">Chat Seller</button>`;
+                        }
+
+                        contentHtml += `
+                            <div class="plant-item" data-location="${product.city}">
+                                <div class="plant-image">
+                                    <img src="${imgPath}" alt="${product.plantname}" onerror="this.onerror=null; this.src='placeholder.jpg';">
+                                </div>
+                                <p>${product.plantname}</p>
+                                <p>Price: ₱${product.price}</p>
+                                <p>Category: ${product.plantcategories}</p>
+                                <p style="font-size: 12px;">Posted: ${timeAgoText}</p>
+                                <div class="plant-item-buttons">
+                                    <button class="view-details" data-id="${product.plantid}" data-email="${product.seller_email}">View Details</button>
+                                    ${chatSellerButton}
+                                </div>
+                            </div>`;
+                    });
+
+                    // Add location buttons to locationsHtml
+                    locationsHtml += `
+                        <div class="plant-location">
+                            <button class="location-btn" data-location="${location}">
+                                ${location}
+                            </button>
+                        </div>`;
+                }
+
+                $('#newly-contents').html(contentHtml);
+                $('#locations').html(locationsHtml);
+
+                // Add event listeners to location buttons to filter plants
+                $('.location-btn').on('click', function() {
+                    let location = $(this).data('location');
+                    console.log(`Button clicked: Location=${location}`); // Log the location
+
+                    if (location === 'all') {
+                        $('.plant-item').show();
+                    } else {
+                        $('.plant-item').each(function() {
+                            if ($(this).data('location') === location) {
+                                $(this).show();
+                            } else {
+                                $(this).hide();
+                            }
+                        });
+                    }
+                });
+
+                // Add event listeners to view-details and chat-seller buttons
+                $(document).on('click', '.view-details', function() {
+                    let plantId = $(this).data('id');
+                    let sellerEmail = $(this).data('email');
+
+                    console.log(`View Details button clicked: Plant ID=${plantId}`); // Log the plant ID.
+                    console.log(`Chat Seller button clicked: Seller Email=${sellerEmail}`); // Log the seller email
+
+                    // Create a hidden form and submit it
+                    let form = $('<form>', {
+                        action: 'viewdetails?plant=' + plantId,
+                        method: 'GET'
+                    }).append($('<input>', {
+                        type: 'hidden',
+                        name: 'plantId',
+                        value: plantId
+                    })).append($('<input>', {
+                        type: 'hidden',
+                        name: 'sellerEmail',
+                        value: sellerEmail
+                    }));
+
+                    $('body').append(form);
+                    form.submit();
+                });
+
+                $(document).on('click', '.chat-seller', function() {
+                    let sellerEmail = $(this).data('email');
+                    console.log(`Chat Seller button clicked: Seller Email=${sellerEmail}`); // Log the seller email
+                    window.location.href = `chat_upgrade/chat.php?seller_email=${encodeURIComponent(sellerEmail)}`;
+                });
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                console.log('Response received:', response);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);
+        }
     });
+});
+</script>
 
-    
-    </script>
 </body>
 
 </html>

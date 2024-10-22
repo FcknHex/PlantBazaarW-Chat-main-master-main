@@ -66,7 +66,7 @@ ob_end_flush();
     <link rel="stylesheet" href="editprofile.css">
 
     <!-- SweetAlert Library -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 </head>
 <body>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -84,7 +84,7 @@ ob_end_flush();
     <!-- Check if the profile was updated, then trigger SweetAlert -->
     <?php if ($updated): ?>
         <script>
-            swal({
+            Swal.fire({
                 title: "Profile Updated!",
                 text: "Your profile has been updated successfully",
                 icon: "success",

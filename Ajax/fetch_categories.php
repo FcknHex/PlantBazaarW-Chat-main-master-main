@@ -13,6 +13,7 @@ $sql = "
     FROM product p
     INNER JOIN sellers s ON p.added_by = s.seller_id
     INNER JOIN users u ON s.user_id = u.id
+    WHERE p.listing_status = 1
     ORDER BY p.createdAt DESC
 "; 
 

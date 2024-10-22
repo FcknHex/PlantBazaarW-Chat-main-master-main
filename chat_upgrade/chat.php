@@ -39,7 +39,7 @@ if (!$seller) {
 </head>
 <body>
     <div class="container">
-        <a href="../index.php">Back</a>
+        <a href="javascript:history.back()">Back</a>
       
         <div class="chat-container">
             <h1>Chat with <?php echo htmlspecialchars($seller['firstname'] . ' ' . $seller['lastname']); ?></h1>

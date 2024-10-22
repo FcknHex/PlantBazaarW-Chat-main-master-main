@@ -5,6 +5,7 @@ session_start();
 // Check if a user is logged in
 $isLoggedIn = isset($_SESSION['email']) && !empty($_SESSION['email']);
 $profilePic = ''; // Placeholder for the profile picture
+$email = null;
 $isSeller = false; // Flag to check if the user is a seller
 
 if ($isLoggedIn) {
@@ -171,6 +172,9 @@ $(document).ready(function () {
     let currentPage = 1;
     let allPlants = []; // Store all plants for pagination
 
+// Variables for logged-in state and user email
+    const isLoggedIn = <?php echo json_encode($isLoggedIn); ?>;
+    const userEmail = <?php echo json_encode($email); ?>;
     // Fetch Newly Listed Plants via AJAX
     function fetchPlants() {
         $.ajax({
@@ -223,30 +227,38 @@ $(document).ready(function () {
     }
 
     function displayPlants(plantsToDisplay) {
-        let contentHtml = plantsToDisplay.map(product => {
-            let chatButtonHtml = <?php echo json_encode($isLoggedIn); ?> 
-                ? `<button class="chat-seller" data-email="${product.seller_email}">Chat Seller</button>` 
-                : '';
+    let contentHtml = plantsToDisplay.map(product => {
+        // Check if the user is logged in and if the seller is not the logged-in user
+        let chatButtonHtml = '';
 
-            return `<div class="plant-item" data-location="${product.city}" data-category="${product.plantcategories}" data-size="${product.plantSize}" data-price="${product.price}">
-                <div class="plant-image">
-                    <img src="Products/${product.seller_email}/${product.img1}" alt="${product.plantname}">
-                </div>
-                <p>${product.plantname}</p>
-                <p>Price: ₱${product.price}</p>
-                <p>Category: ${product.plantcategories}</p>
-                <p>Size: ${product.plantSize}</p>
-                <div class="plant-item-buttons">
-                    <button class="view-details" data-id="${product.plantid}" data-email="${product.seller_email}">View more details</button>
-                    ${chatButtonHtml}
-                </div>
-            </div>`;
-        }).join('');
-        $('#newly-contents').html(contentHtml);
-    }
+        // Conditionally display the chat button only if logged in and the user is not the seller
+        if (isLoggedIn && userEmail !== product.seller_email) {
+                chatButtonHtml = `<button class="chat-seller" data-email="${product.seller_email}">Chat Seller</button>`;
+            }
+
+        return `<div class="plant-item" data-location="${product.city}" data-category="${product.plantcategories}" data-size="${product.plantSize}" data-price="${product.price}">
+            <div class="plant-image">
+                <img src="Products/${product.seller_email}/${product.img1}" alt="${product.plantname}" onerror="this.onerror=null; this.src='placeholder.jpg';">
+            </div>
+            <p>${product.plantname}</p>
+            <p>Price: ₱${product.price}</p>
+            <p>Category: ${product.plantcategories}</p>
+            <p>Size: ${product.plantSize}</p>
+            <div class="plant-item-buttons">
+                <button class="view-details" data-id="${product.plantid}" data-email="${product.seller_email}">View more details</button>
+                ${chatButtonHtml} <!-- Conditionally render chat button -->
+            </div>
+        </div>`;
+    }).join('');
+    $('#newly-contents').html(contentHtml);
+}
 
     function renderPagination(totalPages, current) {
         let paginationHtml = '';
+
+        if (totalPages <= 1) {
+            return;
+        }
         for (let i = 1; i <= totalPages; i++) {
             paginationHtml += `<button class="page-link" data-page="${i}">${i}</button>`;
         }
@@ -327,8 +339,23 @@ $(document).ready(function () {
 
     // Initialize the fetch process
     fetchPlants();
-});
 
+    
+});
+// Open modal for categories on mobile
+$('#openCategoriesModal').on('click', function() {
+        $('#categoriesModal').addClass('show');
+    });
+
+    $('#closeCategoriesModal').on('click', function() {
+        $('#categoriesModal').removeClass('show');
+    });
+// Save filter state before navigating to the details page
+$(document).on('click', '.view-details', function () {
+                    let plantId = $(this).data('id');
+                    let sellerEmail = $(this).data('email');
+                    window.location.href = `viewdetails.php?plantId=${plantId}&sellerEmail=${sellerEmail}`;
+                });
 </script>
 
 
