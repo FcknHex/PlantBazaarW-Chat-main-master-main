@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2024 at 02:56 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Oct 29, 2024 at 08:04 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,21 +24,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admins`
+-- Table structure for table `admin`
 --
 
-CREATE TABLE `admins` (
-  `adminid` int(11) NOT NULL,
-  `username` varchar(256) NOT NULL,
-  `password` varchar(256) NOT NULL
+CREATE TABLE `admin` (
+  `adminId` int(11) NOT NULL,
+  `adminEmail` varchar(100) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `loginTime` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `admins`
---
-
-INSERT INTO `admins` (`adminid`, `username`, `password`) VALUES
-(4, 'michaeljohnseva@gmail.com', '$2y$10$qoBvXdDG/d1I48soZBdAHefKr1LPpxZxdUv7eJWL.m7Pa2qTcK4FO');
 
 -- --------------------------------------------------------
 
@@ -206,7 +200,8 @@ INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `message`, `file_path`
 (696, 1, 41, 'Hello po', NULL, NULL, '2024-10-20 15:09:33', 1),
 (697, 48, 41, 'asd', NULL, NULL, '2024-10-20 15:10:13', 1),
 (698, 48, 41, 'Hey po', NULL, NULL, '2024-10-20 15:12:12', 1),
-(699, 1, 41, 'JASDASDASD', NULL, NULL, '2024-10-20 15:14:03', 1);
+(699, 1, 41, 'JASDASDASD', NULL, NULL, '2024-10-20 15:14:03', 1),
+(700, 41, 1, 'Hello po', NULL, NULL, '2024-10-24 12:26:42', 0);
 
 -- --------------------------------------------------------
 
@@ -243,15 +238,14 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`plantid`, `added_by`, `plantname`, `img1`, `img2`, `img3`, `plantColor`, `plantSize`, `plantcategories`, `details`, `location`, `region`, `province`, `city`, `barangay`, `street`, `price`, `createdAt`, `updatedAt`, `listing_status`) VALUES
 (39, 2, 'Succulent', 'succulent.jpg', '', '', 'Green', '6cm', 'Succulent', 'Easy to maintain plant', 'Gapan', '', '', '', '', NULL, 200.00, '2024-10-19 12:15:41', '2024-10-19 12:15:41', 1),
-(47, 3, 'Uebelmannia pectinifera', '461944679_901099365454261_1511506421590284050_n.jpg', '461953559_901099362120928_417283808325182436_n.jpg', '461934857_901099372120927_4382470582676685201_n.jpg', '', 'Adult', 'Indoor', 'Uebelmannia pectinifera is a solitary cactus 10-50(-100) cm tall. It is a multiform species and very variable in habitat, comprising a complex of numerous local forms, where each form is linked to others by populations of plants with intermediate characteristics.', '', 'Autonomous Region in Muslim Mindanao (ARMM)', 'Davao Del Norte', 'Island Garden City Of Samal', '', 'Malapit sa Terminal', 1600.00, '2024-10-21 15:07:27', '2024-10-21 15:07:27', 0),
-(48, 3, 'Astrophytum asterias cv. Goryo Vtype', '461868218_900322995531898_8690682879674124111_n.jpg', '461946027_900322992198565_8126774815550641083_n.jpg', '461859863_900323002198564_5675261350630500625_n.jpg', '', 'Juvenile', 'Indoor', 'Normally Astrophytum asterias seedling have the standard 8 ribs, while only a small number of them have few or more ribs. The form with only five ribs, is particularly rare because many of the 5 ribbed seedlings that occasionally appear will usually develop additional ribs in a few years as they age. So it is quite exceptional to see an old A. asterias with five stable ribs. This form however looks suspiciously hybridized with myriostigma or coahuilense and probably is not a pure 100% asterias.', '', 'Region III (Central Luzon)', 'Nueva Ecija', 'City Of Gapan', 'San Vicente (Pob.)', 'Kangkong street', 1000.21, '2024-10-12 18:32:50', '2024-10-12 18:32:50', 0),
-(49, 3, 'asd', 'Screenshot 2024-06-11 010150.png', 'default-image.jpg', 'default-image.jpg', '', 'Juvenile', 'Grasses', 'qweqwe', '', 'Autonomous Region in Muslim Mindanao (ARMM)', 'Lanao Del Sur', 'Lumba-bayabao (Maguing)', 'Lobo Basara', 'asd', 123.00, '2024-10-19 08:43:20', '2024-10-19 08:43:20', 0),
-(50, 3, 'Wala lang 123', 'Screenshot 2024-08-17 175720.png', 'default-image.jpg', 'default-image.jpg', '', 'Juvenile', 'Trees', 'asdasd', '', 'Autonomous Region in Muslim Mindanao (ARMM)', 'Basilan', 'Al-barka', 'Macalang', 'asdasd', 12332.00, '2024-10-21 06:27:56', '2024-10-21 06:27:56', 2),
-(52, 3, 'Cactus', 'Screenshot 2024-10-19 154859.png', 'default-image.jpg', 'default-image.jpg', '', 'Adult', 'Cacti', 'asdasd', '', 'Region II (Cagayan Valley)', 'Cagayan', 'Pamplona', 'Santa Cruz', 'Near Waltermart', 123.00, '2024-10-19 08:44:35', '2024-10-19 08:44:35', 0),
-(53, 3, 'Cactus', 'Screenshot 2024-10-08 112407.png', 'default-image.jpg', 'default-image.jpg', '', 'Seedling', 'Outdoor', 'asdasd', '', 'National Capital Region (NCR)', 'Ncr, City Of Manila, First District', 'Malate', 'Barangay 703', 'qwe', 123.00, '2024-10-19 09:02:19', '2024-10-19 09:02:19', 0),
-(54, 3, 'Wala lang', 'Screenshot 2024-10-16 231952.png', 'default-image.jpg', 'default-image.jpg', '', 'Juvenile', 'Indoor', 'asdasd', '', 'Region XII (SOCCSKSARGEN)', 'Cotabato City', 'Cotabato City', 'Poblacion VIII', 'Kangkong street', 123.00, '2024-10-19 09:03:53', '2024-10-19 09:03:53', 0),
-(55, 3, 'Sample Plant 2', 'Screenshot 2024-08-27 201651.png', 'default-image.jpg', 'default-image.jpg', '', 'Juvenile', 'Succulent', 'asdasdsa', '', 'Autonomous Region in Muslim Mindanao (ARMM)', 'Basilan', 'Al-barka', 'Macalang', 'asd', 123.00, '2024-10-19 09:18:34', '2024-10-19 09:18:34', 0),
-(56, 3, 'asdsadsasad', 'Screenshot 2024-09-19 144950.png', 'default-image.jpg', 'default-image.jpg', '', 'Seedling', 'Leaves', '123123', '', 'Autonomous Region in Muslim Mindanao (ARMM)', 'Basilan', 'Al-barka', 'Macalang', 'asdasd', 123213.00, '2024-10-19 11:20:43', '2024-10-19 11:20:43', 0);
+(47, 3, 'Uebelmannia pectinifera', '461944679_901099365454261_1511506421590284050_n.jpg', '461953559_901099362120928_417283808325182436_n.jpg', '461934857_901099372120927_4382470582676685201_n.jpg', '', 'Adult', 'Indoor', 'Uebelmannia pectinifera is a solitary cactus 10-50(-100) cm tall. It is a multiform species and very variable in habitat, comprising a complex of numerous local forms, where each form is linked to others by populations of plants with intermediate characteristics.', '', 'Region XI (Davao Region)', 'Davao Del Norte', 'Island Garden City Of Samal', '', 'Malapit sa Terminal', 1600.00, '2024-10-20 18:48:55', '2024-10-20 18:48:55', 2),
+(48, 3, 'Astrophytum asterias cv. Goryo Vtype', '461868218_900322995531898_8690682879674124111_n.jpg', '461946027_900322992198565_8126774815550641083_n.jpg', '461859863_900323002198564_5675261350630500625_n.jpg', '', 'Juvenile', 'Indoor', 'Normally Astrophytum asterias seedling have the standard 8 ribs, while only a small number of them have few or more ribs. The form with only five ribs, is particularly rare because many of the 5 ribbed seedlings that occasionally appear will usually develop additional ribs in a few years as they age. So it is quite exceptional to see an old A. asterias with five stable ribs. This form however looks suspiciously hybridized with myriostigma or coahuilense and probably is not a pure 100% asterias.', '', 'Region III (Central Luzon)', 'Nueva Ecija', 'City Of Gapan', 'San Vicente (Pob.)', 'Kangkong street', 1000.21, '2024-10-20 19:09:22', '2024-10-20 19:09:22', 2),
+(49, 3, 'asd', 'Screenshot 2024-06-11 010150.png', 'default-image.jpg', 'default-image.jpg', '', 'Juvenile', 'Grasses', 'qweqwe', '', 'Region IV-A (CALABARZON)', '', 'City Of Gapan', 'San Vicente (Pob.)', 'asd', 123.00, '2024-10-22 17:23:29', '2024-10-22 17:23:29', 2),
+(57, 3, 'Wala lang 123', '461875136_900319612198903_6003683218236318191_n.jpg', '461795555_900319615532236_6193450879555062943_n.jpg', '461861999_900319622198902_4781648371440441819_n.jpg', '', 'Seedling', 'Bushes', 'halaman na malupit', '', 'Region IV-A (CALABARZON)', 'Cavite', 'Silang', 'Inchican', 'asdasd', 1111.00, '2024-10-22 18:59:24', '2024-10-22 18:59:24', 2),
+(58, 3, 'Sample Plant 2', '461875136_900319612198903_6003683218236318191_n.jpg', '461861999_900319622198902_4781648371440441819_n.jpg', '461795555_900319615532236_6193450879555062943_n.jpg', '', 'Juvenile', 'Indoor', '1231231', '', 'Region III (Central Luzon)', 'Aurora', 'Casiguran', 'Barangay 2 (Pob.)', 'Malapit sa 7/11', 11111.00, '2024-10-22 18:58:52', '2024-10-22 18:58:52', 2),
+(59, 3, 'Sample Plant 2', '461946027_900322992198565_8126774815550641083_n.jpg', '461868218_900322995531898_8690682879674124111_n.jpg', '461859863_900323002198564_5675261350630500625_n.jpg', '', 'Juvenile', 'Flowers', 'asdsadasd', '', 'Cordillera Administrative Region (CAR)', 'Benguet', 'Sablan', 'Banangan', 'asdasd', 123123.00, '2024-10-22 18:55:58', '2024-10-22 18:55:58', 2),
+(60, 3, 'Cactus', '461868218_900322995531898_8690682879674124111_n.jpg', 'default-image.jpg', 'default-image.jpg', '', 'Seedling', 'Outdoor', 'Matinik na cactus', '', 'Cordillera Administrative Region (CAR)', 'Apayao', 'Kabugao (Capital)', 'Maragat', '12312', 1211.00, '2024-10-22 19:22:26', '2024-10-22 19:22:26', 2),
+(61, 3, 'Wala lang 123', '461868218_900322995531898_8690682879674124111_n.jpg', 'default-image.jpg', 'default-image.jpg', '', 'Juvenile', 'Indoor', 'asdsad', '', 'MIMAROPA', 'Occidental Mindoro', 'Calintaan', 'Malpalon', 'asd', 12.00, '2024-10-29 16:38:03', '2024-10-29 16:38:03', 1);
 
 -- --------------------------------------------------------
 
@@ -287,7 +281,14 @@ INSERT INTO `product_archive` (`archiveID`, `postedBy`, `postPlantName`, `img1`,
 (44, 'maranathabarredo@gmail.com', 'Wala lang', 'Screenshot 2024-10-06 180127.png', 'default-image.jpg', 'default-image.jpg', 'Adult', 'Climbers', '', 0, 123, '2024-10-12 16:29:05', '2024-10-12 16:29:05'),
 (45, 'maranathabarredo@gmail.com', 'Malunggay', '3.png', 'default-image.jpg', 'default-image.jpg', 'Seedling', 'Indoor', '', 0, 1232, '2024-10-12 16:29:06', '2024-10-12 16:29:06'),
 (46, 'maranathabarredo@gmail.com', 'Euphorbia obesa', '461861999_900319622198902_4781648371440441819_n.jpg', '461795555_900319615532236_6193450879555062943_n.jpg', '461875136_900319612198903_6003683218236318191_n.jpg', 'Juvenile', 'Outdoor', '', 0, 800, '2024-10-12 18:25:35', '2024-10-12 18:25:35'),
-(51, 'maranathabarredo@gmail.com', 'Kangkong', 'Screenshot 2024-09-09 134653.png', 'default-image.jpg', 'default-image.jpg', 'Adult', 'Bushes', '', 0, 1231, '2024-10-21 15:03:30', '2024-10-21 15:03:30');
+(50, 'maranathabarredo@gmail.com', 'Wala lang 123', 'Screenshot 2024-08-17 175720.png', 'UMID_EMV_sample.png', 'default-image.jpg', 'Juvenile', 'Trees', '', 0, 12332, '2024-10-22 18:18:10', '2024-10-22 18:18:10'),
+(51, 'maranathabarredo@gmail.com', 'Kangkong', 'Screenshot 2024-09-09 134653.png', 'default-image.jpg', 'default-image.jpg', 'Adult', 'Bushes', '', 0, 1231, '2024-10-22 18:18:12', '2024-10-22 18:18:12'),
+(52, 'maranathabarredo@gmail.com', 'Cactus', 'Screenshot 2024-10-19 154859.png', 'default-image.jpg', 'default-image.jpg', 'Adult', 'Cacti', '', 0, 123, '2024-10-22 18:18:13', '2024-10-22 18:18:13'),
+(53, 'maranathabarredo@gmail.com', 'Cactus', 'Screenshot 2024-10-08 112407.png', 'default-image.jpg', 'default-image.jpg', 'Seedling', 'Outdoor', '', 0, 123, '2024-10-22 18:18:20', '2024-10-22 18:18:20'),
+(54, 'maranathabarredo@gmail.com', 'Wala lang', 'Screenshot 2024-10-16 231952.png', 'default-image.jpg', 'default-image.jpg', 'Juvenile', 'Indoor', '', 0, 123, '2024-10-22 18:26:13', '2024-10-22 18:26:13'),
+(55, 'maranathabarredo@gmail.com', 'Sample Plant 2', 'Screenshot 2024-08-27 201651.png', 'default-image.jpg', 'default-image.jpg', 'Juvenile', 'Succulent', '', 0, 123, '2024-10-22 18:25:43', '2024-10-22 18:25:43'),
+(56, 'maranathabarredo@gmail.com', 'asdsadsasad', 'Screenshot 2024-09-19 144950.png', 'default-image.jpg', 'default-image.jpg', 'Seedling', 'Leaves', '', 0, 123213, '2024-10-22 18:25:13', '2024-10-22 18:25:13'),
+(57, 'maranathabarredo@gmail.com', '', '', '', '', '', '', '', 0, 0, '2024-10-22 18:26:21', '2024-10-22 18:26:21');
 
 -- --------------------------------------------------------
 
@@ -336,8 +337,7 @@ CREATE TABLE `sellers` (
 
 INSERT INTO `sellers` (`seller_id`, `user_id`) VALUES
 (2, 1),
-(3, 41),
-(4, 59);
+(3, 41);
 
 -- --------------------------------------------------------
 
@@ -349,18 +349,17 @@ CREATE TABLE `seller_applicant` (
   `applicantID` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `validId` varchar(128) NOT NULL,
-  `selfieValidId` varchar(128) NOT NULL,
-  `status` enum('pending','approved','rejected') NOT NULL
+  `selfieValidId` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `seller_applicant`
 --
 
-INSERT INTO `seller_applicant` (`applicantID`, `user_id`, `validId`, `selfieValidId`, `status`) VALUES
-(2, 1, 'pogiako.png', 'pogiako.png\r\n', 'approved'),
-(4, 41, 'pogiKami.png', 'pogiKami.png', 'approved'),
-(23, 59, 'azarik@gmail.com_validId.png', 'azarik@gmail.com_selfieValidId.png', 'approved');
+INSERT INTO `seller_applicant` (`applicantID`, `user_id`, `validId`, `selfieValidId`) VALUES
+(2, 1, 'pogiako.png', 'pogiako.png\r\n'),
+(4, 41, 'pogiKami.png', 'pogiKami.png'),
+(13, 48, 'mbarredo2n.neust@gmail.com_validId.png', 'mbarredo2n.neust@gmail.com_selfieValidId.png');
 
 -- --------------------------------------------------------
 
@@ -375,13 +374,6 @@ CREATE TABLE `seller_applicant_archive` (
   `validId` varchar(128) NOT NULL,
   `selfieValidId` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `seller_applicant_archive`
---
-
-INSERT INTO `seller_applicant_archive` (`archiveID`, `applicantID`, `user_id`, `validId`, `selfieValidId`) VALUES
-(1, 22, 59, 'azarik@gmail.com_validId.png', 'azarik@gmail.com_selfieValidId.png');
 
 -- --------------------------------------------------------
 
@@ -398,6 +390,8 @@ CREATE TABLE `users` (
   `gender` varchar(20) NOT NULL,
   `phoneNumber` bigint(12) NOT NULL,
   `address` varchar(255) NOT NULL,
+  `region` varchar(128) NOT NULL,
+  `city` varchar(128) NOT NULL,
   `password` varchar(255) NOT NULL,
   `user_status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -406,32 +400,32 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `proflePicture`, `firstname`, `lastname`, `email`, `gender`, `phoneNumber`, `address`, `password`, `user_status`) VALUES
-(1, 'eugenevanlinsangan1204@gmail.com.jpg', 'Juan', 'DelaCruz', 'eugenevanlinsangan1204@gmail.com', 'male', 91234351, 'Gapan', 'Test123@', 1),
-(41, 'maranathabarredo@gmail.com.png', 'Maranatha', 'Barredo', 'maranathabarredo@gmail.com', 'male', 974236516, 'Gen Tinio', 'Test123@', 1),
-(48, '2.png', 'qwe', 'qwe', 'mbarredo2n.neust@gmail.com', 'Male', 123, 'qwe', 'qwe', 0),
-(49, 'wadom93936_daypey_com.png', 'Wadow', 'Doe', 'wadom93936@daypey.com', 'Male', 123, 'qwe', '$2y$10$u/5.tT1u86/PS7aFWhDVz.L1CZ7ZuueVul0TPmtCjeOCF32ITx9Rm', 0),
-(50, 'dejesusjoel731_gmail_com.png', 'Joel', 'De jesus', 'dejesusjoel731@gmail.com', 'Male', 9392925229, 'Poblacion East 2, Aliaga', '$2y$10$skYEmTatLJb9dqbs4u7QKek1.ce8o3E0OXfP4/YrnwW2NFWexDGHS', 0),
-(51, 'olpottado205_gmail_com.png', 'Joel', 'De jesus', 'olpottado205@gmail.com', 'Male', 9882215277, 'Poblacion East 2, Aliaga', '$2y$10$fhav0V3QxWCllQWM7HDNNuF31esnXaAWx23LBMNR/FQqLDSLFJOq.', 0),
-(52, '', 'Joel', 'De jesus', 'hatdog@gmail.com', 'gg', 9392925229, 'Poblacion East 2, Aliaga', '$2y$10$kqhldvFsXVcFkstDraB84..raG0t2twk9Lczs7pdcjR2Lg4bi7EY6', 0),
-(53, 'gab_gmail_com.jpg', 'Gab', 'Gab', 'gab@gmail.com', 'Male', 9392925229, 'Gen Tinio', '$2y$10$ewu4rqhwpjPEdZMjfWpqBe1FfWs1yYeddkuk6uLvyTOnMDZpy4wdq', 0),
-(54, '', 'Gab', 'Gab', 'gab123@gmail.com', 'gg', 9392925229, 'Poblacion East 2, Aliaga', 'GG', 0),
-(55, 'GB_GMAIL_com.jpg', 'Gab', 'Gab', 'GB@GMAIL.com', 'Male', 9392925229, 'Gen Tinio', '$2y$10$qPFrPtmYYlFObD8TIErFseJt7GoHDwQ0GoXLnkVDaI70u/nbj5FDi', 0),
-(56, 'Mark_olpot_yahoo_com.jpg', 'Gab', 'Gab', 'Mark_olpot@yahoo.com', 'Male', 9392925229, 'Gen Tinio', '$2y$10$QWDrYW.Ky2qSusj56hkfhOwoQoRobnTdGu5PHnrv73hvbjyb0oNoW', 0),
-(57, '', 'Gab', 'Gab', 'gg@gmail.com', 'gg', 9882215277, 'Poblacion East 2, Aliaga', '$2y$10$QPUzjsuvxqIqMAoShvS9yOlgBlLxK0DRz2I89vTbmf938QIRgybXK', 0),
-(58, NULL, '', '', 'gh@gmail.com', '', 0, '', 'gg', 0),
-(59, '', 'Gab', 'God', 'azarik@gmail.com', 'gab', 45454, 'gab', 'qwe', 0);
+INSERT INTO `users` (`id`, `proflePicture`, `firstname`, `lastname`, `email`, `gender`, `phoneNumber`, `address`, `region`, `city`, `password`, `user_status`) VALUES
+(1, 'eugenevanlinsangan1204@gmail.com.jpg', 'Juan', 'DelaCruz', 'eugenevanlinsangan1204@gmail.com', 'male', 91234351, 'Gapan', '', '', 'Test123@', 1),
+(41, 'maranathabarredo@gmail.com.png', 'Maranatha', 'Barredo', 'maranathabarredo@gmail.com', 'male', 9912212123, 'Gen Tinio1', 'Region III (Central Luzon)', 'Cabanatuan City', 'Test123@', 1),
+(48, '2.png', 'qwe', 'qwe', 'mbarredo2n.neust@gmail.com', 'Male', 123, 'qwe', '', '', 'qwe', 0),
+(49, 'wadom93936_daypey_com.png', 'Wadow', 'Doe', 'wadom93936@daypey.com', 'Male', 123, 'qwe', '', '', '$2y$10$u/5.tT1u86/PS7aFWhDVz.L1CZ7ZuueVul0TPmtCjeOCF32ITx9Rm', 0),
+(50, 'dejesusjoel731_gmail_com.png', 'Joel', 'De jesus', 'dejesusjoel731@gmail.com', 'Male', 9392925229, 'Poblacion East 2, Aliaga', '', '', '$2y$10$skYEmTatLJb9dqbs4u7QKek1.ce8o3E0OXfP4/YrnwW2NFWexDGHS', 0),
+(51, 'olpottado205_gmail_com.png', 'Joel', 'De jesus', 'olpottado205@gmail.com', 'Male', 9882215277, 'Poblacion East 2, Aliaga', '', '', '$2y$10$fhav0V3QxWCllQWM7HDNNuF31esnXaAWx23LBMNR/FQqLDSLFJOq.', 0),
+(52, '', 'Joel', 'De jesus', 'hatdog@gmail.com', 'gg', 9392925229, 'Poblacion East 2, Aliaga', '', '', '$2y$10$kqhldvFsXVcFkstDraB84..raG0t2twk9Lczs7pdcjR2Lg4bi7EY6', 0),
+(53, 'gab_gmail_com.jpg', 'Gab', 'Gab', 'gab@gmail.com', 'Male', 9392925229, 'Gen Tinio', '', '', '$2y$10$ewu4rqhwpjPEdZMjfWpqBe1FfWs1yYeddkuk6uLvyTOnMDZpy4wdq', 0),
+(54, '', 'Gab', 'Gab', 'gab123@gmail.com', 'gg', 9392925229, 'Poblacion East 2, Aliaga', '', '', 'GG', 0),
+(55, 'GB_GMAIL_com.jpg', 'Gab', 'Gab', 'GB@GMAIL.com', 'Male', 9392925229, 'Gen Tinio', '', '', '$2y$10$qPFrPtmYYlFObD8TIErFseJt7GoHDwQ0GoXLnkVDaI70u/nbj5FDi', 0),
+(56, 'Mark_olpot_yahoo_com.jpg', 'Gab', 'Gab', 'Mark_olpot@yahoo.com', 'Male', 9392925229, 'Gen Tinio', '', '', '$2y$10$QWDrYW.Ky2qSusj56hkfhOwoQoRobnTdGu5PHnrv73hvbjyb0oNoW', 0),
+(57, '', 'Gab', 'Gab', 'gg@gmail.com', 'gg', 9882215277, 'Poblacion East 2, Aliaga', '', '', '$2y$10$QPUzjsuvxqIqMAoShvS9yOlgBlLxK0DRz2I89vTbmf938QIRgybXK', 0),
+(58, NULL, '', '', 'gh@gmail.com', '', 0, '', '', '', 'gg', 0),
+(59, '', 'Gab', 'God', 'azarik@gmail.com', 'gab', 45454, 'gab', '', '', '$2y$10$7j4V1EEXorFOloQtFklkZeLaiaFpIEfWHKL/AHwgOYcjJ0xxUOSY6', 0),
+(60, 'wadom93936_daypey_com.png', 'John', 'Doe', 'wadom93936@daypey.com', 'Female', 123, 'Malaysia', '', '', '$2y$10$lrFh8N1YDPEPdTJNWlZxUu/izqlmdUDq7Kv0sg0rK92BYsL72bxwG', 0);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `admins`
+-- Indexes for table `admin`
 --
-ALTER TABLE `admins`
-  ADD PRIMARY KEY (`adminid`),
-  ADD UNIQUE KEY `username` (`username`);
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`adminId`);
 
 --
 -- Indexes for table `chats`
@@ -500,10 +494,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `admins`
+-- AUTO_INCREMENT for table `admin`
 --
-ALTER TABLE `admins`
-  MODIFY `adminid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `admin`
+  MODIFY `adminId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `chats`
@@ -515,19 +509,19 @@ ALTER TABLE `chats`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=700;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=701;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `plantid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `plantid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `product_archive`
 --
 ALTER TABLE `product_archive`
-  MODIFY `archiveID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `archiveID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `reports`
@@ -539,25 +533,25 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT for table `sellers`
 --
 ALTER TABLE `sellers`
-  MODIFY `seller_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `seller_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `seller_applicant`
 --
 ALTER TABLE `seller_applicant`
-  MODIFY `applicantID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `applicantID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `seller_applicant_archive`
 --
 ALTER TABLE `seller_applicant_archive`
-  MODIFY `archiveID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `archiveID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- Constraints for dumped tables

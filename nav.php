@@ -96,7 +96,7 @@ if ($isLoggedIn) {
             </a>
             <a><p>Hello, <?php echo $firstname . ' ' . $lastname; ?></p> </a>
         <?php endif;?>
-        <a href="#" id="home1">Home</a>
+        <a href="index" id="home1">Home</a>
         <a href="#" id="about1">About</a>
         <a href="#">Contact</a>
         <?php if ($isLoggedIn): ?>
