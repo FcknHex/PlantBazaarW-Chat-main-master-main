@@ -59,8 +59,8 @@ if ($isLoggedIn) {
     <!-- Categories Container -->
     <button id="openCategoriesModal" class="categories-modal-btn">Filter Categories</button>
 
-<!-- Categories Container for Desktop -->
-<div class="categories-container">
+    <!-- Categories Container for Desktop -->
+    <div class="categories-container">
         <!-- Plant Type -->
         <div class="plant-type">
             <h3>Plant Type</h3>
@@ -144,7 +144,7 @@ if ($isLoggedIn) {
 </div>
         
 
-<!-- Newly Listed Plants -->
+
 <div class="listed-plants">
     <div class="sort-container">
         <h1>Listed Plants</h1>
@@ -164,7 +164,8 @@ if ($isLoggedIn) {
     </div>
     <div id="pagination-container"></div> <!-- Pagination -->
 </div>
-
+</div>
+<?php include 'footer.php';?>
 <script src="script.js"></script>
 <script>
 $(document).ready(function () {
@@ -357,8 +358,6 @@ $(document).on('click', '.view-details', function () {
                     window.location.href = `viewdetails.php?plantId=${plantId}&sellerEmail=${sellerEmail}`;
                 });
 </script>
-
-
-    
+ 
 </body>
 </html>

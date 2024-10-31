@@ -97,7 +97,7 @@ ob_end_flush();
         <label for="lastname">Lastname:</label>
         <input type="text" id="lastname" name="lastname" value="<?php echo $lastname; ?>"><br><br>
         <label for="phonenumber">Phone Number:</label>
-        <input type="tel" id="phonenumber" name="phonenumber" maxlength="10" pattern="[1-9][1-9]{10}" title="Please enter a valid 11-digit phone number" value="<?php echo $phonenumber; ?>">
+        <input type="tel" id="phonenumber" name="phonenumber" maxlength="10" pattern="[9][0-9]{9}" title="Please enter a valid phone number" value="<?php echo $phonenumber; ?>">
         <p class="note">Format: 9XXXXXXXX</p>
         <br><br>
         <label for="address">Address:</label>
@@ -112,7 +112,7 @@ ob_end_flush();
             <option value="" disabled selected>Select City/Municipality</option>
         </select><br><br>
 
-        <input type="submit" name="submit" value="Update Profile">
+        <input type="submit" name="submit" id="submit" value="Update Profile" disabled>
     </form>
     </div>
     </div>
@@ -162,8 +162,6 @@ ob_end_flush();
         }
     });
 
-
-    
     const userRegion = "<?php echo $region; ?>";
     const userCity = "<?php echo $city; ?>";
 
@@ -220,5 +218,15 @@ ob_end_flush();
         loadCities(this.value);
     });
    
+//    enable update profile button when any input value changes
+const inputs = document.querySelectorAll("input");
+const button = document.getElementById("submit");
+
+inputs.forEach(input => {
+    input.addEventListener("input", function() {
+        const isAnyInputFilled = Array.from(inputs).some(input => input.value.trim() !== '');
+        button.disabled =!isAnyInputFilled;
+    });
+})
 </script>
 </html>

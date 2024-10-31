@@ -70,6 +70,11 @@ a {
     transition: color 0.3s ease; /* Smooth transition for color change */
 }
 
+.g-recaptcha {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
 .nav1 a:hover,
 .login-signup a:hover {
     color: #352208; /* Change color on hover (you can customize) */
@@ -182,7 +187,7 @@ a {
     padding: 20px;
     border: 1px solid #ddd;
     width: 80%;
-    max-width: 400px; /* Limit the width */
+    max-width: 500px; /* Limit the width */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
@@ -236,7 +241,30 @@ a {
     background-color: #f9f9f9;
     transition: background-color 0.3s ease;
 }
-
+.region-select{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+.city-select{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
 .modal-content input:focus {
     background-color: #fff;
     outline: none;
@@ -255,6 +283,25 @@ a {
     cursor: pointer;
     font-size: 1.2rem;
     transition: background-color 0.3s ease;
+}
+
+.signup-button-disabled {
+    background-color: #ccc !important;
+    cursor: not-allowed !important;
+}
+.otp-button{
+    position: relative !important;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width:auto !important;
+    padding: 5px !important;
+    font-size: 1rem !important;
+}
+
+.otp-button-disabled {
+    background-color: #ccc !important;
+    cursor: not-allowed !important;
 }
 
 .modal-content button:hover {
@@ -325,13 +372,24 @@ a {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 1600px; /* Set the desired width */
-    max-width: 100%; /* Ensure responsiveness on smaller screens */
+    width: 2000px; /* Set the desired width */
+    max-width: 100%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(5px); /* Background blur effect */
-    overflow: hidden; /* Prevent overflow */
 }
-
+.signup-container{
+    display: flex;
+    flex-direction: row;
+}
+.signup-container1{
+    width: 50%;
+    padding: 20px;
+}
+.signup-container2{
+    width: 50%;
+    padding: 20px;
+    margin-top: 13%;
+}
 /* Ensure body doesn't scroll when modal is open */
 body.modal-open {
     overflow: hidden; /* Hide body overflow */

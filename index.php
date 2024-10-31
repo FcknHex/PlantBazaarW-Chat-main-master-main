@@ -34,7 +34,6 @@ if ($isLoggedIn) {
     if ($sellerResult && mysqli_num_rows($sellerResult) > 0) {
         $isSeller = true; // User is a seller
     }
-    
 }
 ?>
 
@@ -67,9 +66,10 @@ if ($isLoggedIn) {
         </div>
         <div id="pagination">
         <!-- Pagination buttons will be dynamically inserted here -->
-    </div>
-    </div>
 
+    </div>
+    </div>
+    <?php include 'footer.php'?>
     <script>
 $(document).ready(function() {
     // Fetch Newly Listed Plants via AJAX
