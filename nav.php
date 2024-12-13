@@ -50,6 +50,7 @@ if ($isLoggedIn) {
     <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="ph-address.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title>Plant-Bazaar</title>
 </head>
@@ -96,7 +97,7 @@ if ($isLoggedIn) {
             </a>
             <a><p>Hello, <?php echo $firstname . ' ' . $lastname; ?></p> </a>
         <?php endif;?>
-        <a href="#" id="home1">Home</a>
+        <a href="index" id="home1">Home</a>
         <a href="#" id="about1">About</a>
         <a href="#">Contact</a>
         <?php if ($isLoggedIn): ?>
@@ -147,7 +148,8 @@ if ($isLoggedIn) {
 <div id="signupModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-
+        <div class="signup-container">
+            <div class="signup-container1">
         <h2>Sign Up</h2>
         <form method="POST" action="" id="signupForm" enctype="multipart/form-data">
             <div class="form-group">
@@ -179,24 +181,44 @@ if ($isLoggedIn) {
                     <option value="Other">Other</option>
                 </select>
             </div>
-
+        </div>
+        <div class="signup-container2">
             <div class="form-group">
                 <label for="signupPhoneNumber">Phone Number</label>
                 <input type="tel" id="signupPhoneNumber" name="phonenumber" placeholder="Phone Number" required>
             </div>
 
+            <!-- Address Section -->
+             <div class="form-group">
+            <label for="region">Region:</label>
+            <select id="region" name="region" class="region-select">
+                <option value="" disabled selected>Select Region</option>
+            </select>
+            </div>
+
             <div class="form-group">
-                <label for="signupAddress">Address</label>
-                <input type="text" id="signupAddress" name="address" placeholder="Address" required>
+            <label for="city">City/Municipality:</label>
+            <select id="city" name="city" class="city-select">
+                <option value="" disabled selected>Select City/Municipality</option>
+            </select>
             </div>
 
             <div class="form-group">
                 <label for="signupProfilePicture">Profile Picture</label>
+                <img src="" alt="">
                 <input type="file" id="signupProfilePicture" name="profilePicture" accept="image/*">
             </div>
 
+            <div class="form-group">
+                <label for="otp">Enter OTP</label>
+                <input type="text" name="otp" id="">
+                <button class="otp-button" id="otp-button">Send OTP</button>
+                <button class="otp-button" id="verify-otp-button" style="display: none;">Verify OTP</button>
+            </div>
             <!-- Submit Button -->
-            <button type="submit">Sign Up</button>
+            <button type="submit" class="signup-button-disabled" disabled>Sign Up</button>
+            </div>
+        </div>
         </form>
         <p>Already have an account? <a href="#" id="loginLink">Login</a></p>
     </div>
@@ -207,7 +229,34 @@ if ($isLoggedIn) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         
+        const regionSelect = document.getElementById("region");
+        const citySelect = document.getElementById("city");
 
+        // Populate regions
+    Object.keys(philippinesData).forEach(region => {
+        const option = document.createElement("option");
+        option.value = region;
+        option.textContent = region;
+        
+        regionSelect.appendChild(option);
+    });
+    
+    // Populate cities based on selected region
+    regionSelect.addEventListener("change", function() {
+        const selectedRegion = this.value;
+        const cities = philippinesData[selectedRegion] || [];
+
+        // Clear existing cities
+        citySelect.innerHTML = '<option value="" disabled selected>Select City/Municipality</option>';
+
+        // Populate city dropdown
+        cities.forEach(city => {
+            const option = document.createElement("option");
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
+        });
+    });
     // document.getElementById("chats").addEventListener("click", function() {
         
     // });
@@ -237,7 +286,6 @@ if ($isLoggedIn) {
 
 
    
-
    document.addEventListener('DOMContentLoaded', function() {
 
     $(document).on('click', '.chat-seller', function() {
@@ -286,77 +334,6 @@ $(document).ready(function() {
     });
 });
 
-//     $(".about").click(function(event) {
-//   event.preventDefault();
-//   $.ajax({
-//     type: "GET",
-//     url: "aboutus.php",
-//     success: function(data) {
-//         console.log("Success: " + data);
-//       $("#contentContainer").html(data);
-//     },
-//     error: function(xhr, status, error) {
-//       console.error("Failed to load aboutus.php");
-//     }
-//   });
-// });
-// });
-
-
-
-// document.getElementById("about").addEventListener("click", function() {
-//     var featured = document.getElementById("featured");
-//     var newlyListed = document.getElementById("newlyListed");
-//     var aboutUs = document.getElementById("aboutUs");
-
-//     if (aboutUs) {
-//         featured.style.display = "none";
-//         newlyListed.style.display = "none";
-//         aboutUs.style.display = "block";
-//     } else {
-//         console.error("Element with id 'aboutUs' not found");
-//     }
-// });
-// document.getElementById("about1").addEventListener("click", function() {
-//     var featured = document.getElementById("featured");
-//     var newlyListed = document.getElementById("newlyListed");
-//     var aboutUs = document.getElementById("aboutUs");
-
-//     if (aboutUs) {
-//         featured.style.display = "none";
-//         newlyListed.style.display = "none";
-//         aboutUs.style.display = "block";
-//     } else {
-//         console.error("Element with id 'aboutUs' not found");
-//     }
-// });
-
-// document.getElementById("home").addEventListener("click", function() {
-//     var featured = document.getElementById("featured");
-//     var newlyListed = document.getElementById("newlyListed");
-//     var aboutUs = document.getElementById("aboutUs");
-
-//     if (aboutUs) {
-//         featured.style.display = "block";
-//         newlyListed.style.display = "block";
-//         aboutUs.style.display = "none";
-//     } else {
-//         console.error("Element with id 'aboutUs' not found");
-//     }
-// });
-
-// document.getElementById("home1").addEventListener("click", function() {
-//     var featured = document.getElementById("featured");
-//     var newlyListed = document.getElementById("newlyListed");
-//     var aboutUs = document.getElementById("aboutUs");
-
-//     if (aboutUs) {
-//         featured.style.display = "block";
-//         newlyListed.style.display = "block";
-//         aboutUs.style.display = "none";
-//     } else {
-//         console.error("Element with id 'aboutUs' not found");
-//     }
 });
 
 

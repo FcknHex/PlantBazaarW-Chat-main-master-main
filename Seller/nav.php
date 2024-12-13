@@ -115,7 +115,7 @@ if ($isLoggedIn) {
     <?php else: ?>
         <a href="applySeller.php" id="sellerApply" class="sellerApply">Be A Seller</a> <!-- Link to becoming a seller -->
     <?php endif; ?>
-    <a href="editprofile.php">Edit Profile</a>
+    <a href="../editprofile.php">Edit Profile</a>
     <a href="#" id="logoutLink">Logout</a>
 </div>
 

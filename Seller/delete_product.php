@@ -53,7 +53,22 @@ $result = mysqli_query($conn, $sql);
 // Check if the deletion is successful
 if ($result) {
   echo "Listing deleted successfully.";
-  header("Location: seller_dashboard.php");
+  echo"
+  <script>
+  Swal.fire({
+    icon: 'success',
+    title: 'Listing Deleted',
+    text: 'The listing has been deleted successfully.',
+    confirmButtonText: 'OK'
+  }).then((result) => {
+    if (result.isConfirmed) {
+    setTimeout(function() {
+      window.location.href = 'seller_dashboard.php';
+    }, 2000);
+    })
+  });
+  </script>
+  ";
   exit;
 } else {
   echo "Error deleting listing.";

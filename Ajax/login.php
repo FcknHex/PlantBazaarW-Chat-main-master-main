@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Check if a user is found
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        if($user['password'] == $password) {
+        if (password_verify($password, $user['password'])) {
             $_SESSION['email'] = $email;
             $_SESSION['user_id'] = $user['id'];
             echo json_encode(array('success' => true, 'message' => 'Successfully logged in'));

@@ -161,9 +161,11 @@ h1 {
 
 /* Ensure the images maintain aspect ratio and fit within the container */
 .plant-image img {
+    width: 100%;
+    height: 100%;
     max-width: 100%; /* Ensure the image width fits within the container */
     max-height: 100%; /* Ensure the image height fits within the container */
-    object-fit: contain; /* Display image fully with borders if needed */
+    object-fit: cover; /* Display image fully with borders if needed */
     background-color: #fff;
 }
 
@@ -177,7 +179,7 @@ h1 {
 /* Rounder buttons with larger padding */
 .plant-item-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 10px;
     width: 100%;
 }

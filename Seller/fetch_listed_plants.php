@@ -28,7 +28,7 @@ $productsPerPage = 4; // Number of products to display per page
 $offset = ($page - 1) * $productsPerPage;
 
 // Get listing_status (1 for available, 2 for sold)
-$listingStatus = isset($_GET['listing_status']) ? (int)$_GET['listing_status'] : 0; 
+$listingStatus = isset($_GET['listing_status']) ? (int)$_GET['listing_status'] : 1; 
 
 // Fetch products listed by this seller
 $productQuery = "
